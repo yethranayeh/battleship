@@ -1,0 +1,27 @@
+{
+	"name": "battleship",
+	"version": "1.0.0",
+	"description": "Battleship game",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"jwatch": "jest --watchAll",
+		"watch": "webpack --watch",
+		"build": "webpack"
+	},
+	"keywords": [
+		"battleship"
+	],
+	"author": "yethranayeh",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.16.12",
+		"@babel/preset-env": "^7.16.11",
+		"babel-loader": "^8.2.3",
+		"css-loader": "^6.6.0",
+		"jest": "^27.4.7",
+		"style-loader": "^3.3.1",
+		"webpack": "^5.68.0",
+		"webpack-cli": "^4.9.2"
+	}
+}
