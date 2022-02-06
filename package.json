@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "jest",
-		"jwatch": "jest --watchAll",
+		"jwatch": "jest --watchAll --verbose false",
 		"watch": "webpack --watch",
 		"build": "webpack"
 	},
