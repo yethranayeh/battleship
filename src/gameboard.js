@@ -44,14 +44,14 @@ const Board = function () {
 		let ship = board[row][col];
 		if (typeof ship === "object") {
 			ship.hit([row, col]);
-			// Publish event - PubSub.publish(shipHit, coords)
+			PubSub.publish("shipHit", ship);
 		} else if (ship === 0) {
 			board[row][col] = -1;
-			// Publish event - PubSub.publish(miss, coords)
+			PubSub.publish("miss", coords);
 		}
 
 		if (ships.every((ship) => ship.isSunk())) {
-			// Publish event - PubSub.publish(gameOver)
+			PubSub.publish("gameOver", this.DOM);
 		}
 	}
 	return { board, addShip, receiveAttack };

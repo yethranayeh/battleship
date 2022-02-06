@@ -1,0 +1,71 @@
+/** @format */
+
+/* Start: General */
+:root {
+	--square-size: 2rem;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.col {
+	display: flex;
+	flex-direction: column;
+	/* flex-basis: 0; */
+	/* flex: 1 1 auto; */
+}
+
+.container {
+	width: 100%;
+	max-width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.no-click {
+	pointer-events: none;
+}
+
+/* End: General */
+
+/* Start: Board */
+
+.container .row {
+	gap: var(--square-size);
+	justify-content: space-between;
+}
+
+.board {
+	display: grid;
+	grid-template-columns: repeat(10, var(--square-size));
+}
+
+.square {
+	width: var(--square-size);
+	height: var(--square-size);
+	border: 1px solid #ccc;
+	background-color: antiquewhite;
+}
+
+.square.ship {
+	background-color: royalblue;
+}
+
+.square.hit {
+	background-color: red;
+}
+
+.square.miss {
+	background-color: darkgray;
+}
+/* End: Board */

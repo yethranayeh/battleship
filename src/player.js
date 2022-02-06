@@ -1,6 +1,9 @@
 /** @format */
 
 const Player = function (playerName, computer) {
+	if (/^computer$/i.test(playerName)) {
+		throw new Error("Computer player name is reserved");
+	}
 	let name = playerName || (computer ? "Computer" : "Player");
 
 	function attack(enemy, coords) {
