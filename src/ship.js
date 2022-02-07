@@ -14,10 +14,9 @@ const Ship = (length, coords) => {
 	} else if (length < 1) {
 		throw new Error("Ship cannot be shorter than 1 unit");
 	} else {
-		// hitState = new Array(length).fill(false);
 		for (let i = 0; i < length; i++) {
-			// Coordinate based hit state, so they can be referenced later.
-			// e.g. hitstate["0-0"] = false;
+			// Initialize hitState for each unit of the ship
+			// Coordinate based hit state, so they can be referenced later. e.g. hitstate["0-0"] = false;
 			let row = coords[i][0];
 			let col = coords[i][1];
 			hitState[`${row}-${col}`] = false;
@@ -43,8 +42,8 @@ const Ship = (length, coords) => {
 		}
 	}
 
+	/** Check if all of the hitState values are true on each key. */
 	function isSunk() {
-		// Check if all of the hitState values are true on each key.
 		return Object.keys(hitState).every((key) => hitState[key]);
 	}
 	return { length, hit, isSunk, coords };

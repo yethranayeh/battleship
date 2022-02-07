@@ -53,39 +53,13 @@ player.board.addShip(player.destroyer);
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
 
 const computer = Player(null, true);
-computer.carrier = Ship(5, [
-	[0, 2],
-	[0, 3],
-	[0, 4],
-	[0, 5],
-	[0, 6]
-]);
-computer.battleship = Ship(4, [
-	[6, 0],
-	[7, 0],
-	[8, 0],
-	[9, 0]
-]);
-computer.cruiser = Ship(3, [
-	[3, 6],
-	[4, 6],
-	[5, 6]
-]);
-computer.submarine = Ship(3, [
-	[3, 0],
-	[3, 1],
-	[3, 2]
-]);
-computer.destroyer = Ship(2, [
-	[8, 8],
-	[8, 9]
-]);
 computer.board = Board();
-computer.board.addShip(computer.carrier);
-computer.board.addShip(computer.battleship);
-computer.board.addShip(computer.cruiser);
-computer.board.addShip(computer.submarine);
-computer.board.addShip(computer.destroyer);
+
+computer.shipLengths = [5, 4, 3, 3, 2];
+for (let length of computer.shipLengths) {
+	let ship = Ship(length, computer.getRandomCoords(length));
+	computer.board.addShip(ship);
+}
 computer.board.DOM = DOM.initBoard(computer.board.board, document.querySelector("#computer-board"));
 // End: Development code
 
@@ -99,12 +73,14 @@ computer.board.DOM.querySelectorAll(".square").forEach((square) => {
 // Event subscriptions
 PubSub.subscribe(Events.playerClicked, (topic, square) => {
 	const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
-	if (square.classList.contains("ship")) {
+	// If clicked square is a ship
+	if (typeof computer.board.board[squareCoords[0]][squareCoords[1]] === "object") {
 		if (!square.classList.contains("hit")) {
 			square.classList.add("hit");
 			player.attack(computer, squareCoords);
 		}
 	} else {
+		// If clicked square is not a ship but also not clicked before, add miss class
 		if (!square.classList.contains("miss")) {
 			square.classList.add("miss");
 			player.attack(computer, squareCoords);

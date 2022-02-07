@@ -15,7 +15,8 @@ const DOM = {
 				if (board[row][col] === -1) {
 					square.classList.add("miss");
 				} else if (typeof board[row][col] === "object") {
-					square.classList.add("ship");
+					square.classList.add("ship"); // development - computer ships are visible
+					// if (container.id === "player-board") square.classList.add("ship"); // production - computer ships are hidden
 				}
 				square.setAttribute("data-row", row);
 				square.setAttribute("data-col", col);

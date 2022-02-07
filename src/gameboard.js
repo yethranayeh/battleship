@@ -38,7 +38,30 @@ const Board = function () {
 		}
 	}
 
+	/**
+	 *
+	 * @param {array} coords - Array of row and column coordinates
+	 * @returns {boolean}
+	 */
+	function isOccupied(coords) {
+		let row = coords[0];
+		let col = coords[1];
+		if (typeof board[row][col] === "object") {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * @param {array} coords - Array of row and column coordinates that will be attacked
+	 */
 	function receiveAttack(coords) {
+		// start: Unit testing mock object
+		const PubSub = {
+			publish: () => {}
+		};
+		// end: Unit testing mock object
 		let row = coords[0];
 		let col = coords[1];
 		let ship = board[row][col];
@@ -54,7 +77,7 @@ const Board = function () {
 			PubSub.publish("gameOver", this.DOM);
 		}
 	}
-	return { board, addShip, receiveAttack };
+	return { board, addShip, receiveAttack, isOccupied };
 };
 
 module.exports = Board;
