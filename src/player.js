@@ -77,9 +77,14 @@ const Player = function (playerName, computer) {
 
 	function getRandomCoords(shipLength) {
 		let coords = randomShipCoords(shipLength);
+
+		/**
+		 * @this {object} - Player object
+		 */
 		while (coords.some((coord) => this.board.isOccupied(coord))) {
 			coords = randomShipCoords(shipLength);
 		}
+
 		return coords;
 	}
 

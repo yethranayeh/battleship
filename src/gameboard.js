@@ -57,11 +57,13 @@ const Board = function () {
 	 * @param {array} coords - Array of row and column coordinates that will be attacked
 	 */
 	function receiveAttack(coords) {
-		// start: Unit testing mock object
-		const PubSub = {
-			publish: () => {}
-		};
-		// end: Unit testing mock object
+		/**
+		 * When enabled, mocks PubSub.publish() that is normally available in global scope in index.js
+		 * Since unit tests are run in isolation, PubSub is not imported, therefore PubSub.publish() is not available
+		 * @namespace PubSub
+		 */
+		// const PubSub = { publish: () => {} };
+
 		let row = coords[0];
 		let col = coords[1];
 		let ship = board[row][col];
@@ -74,6 +76,9 @@ const Board = function () {
 		}
 
 		if (ships.every((ship) => ship.isSunk())) {
+			/**
+			 * @this {node} - Player().board.DOM
+			 */
 			PubSub.publish("gameOver", this.DOM);
 		}
 	}
