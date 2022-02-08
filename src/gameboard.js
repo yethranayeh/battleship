@@ -38,6 +38,34 @@ const Board = function () {
 		}
 	}
 
+	function nextShipLength() {
+		if (ships.length === 3) {
+			// There will be two 3 length ships
+			// So the function will return 3 twice
+			return 3;
+		} else if (ships.length === 4) {
+			// The last ship will be a 2 length ship instead of 1
+			return 2;
+		}
+		return 5 - ships.length;
+	}
+
+	function newShipCoords(startPoint, shipLength, direction) {
+		let coords = [];
+		let row = startPoint[0];
+		let col = startPoint[1];
+		if (direction === "horizontal") {
+			for (let i = col; i < col + shipLength; i++) {
+				coords.push([row, i]);
+			}
+		} else if (direction === "vertical") {
+			for (let i = row; i < row + shipLength; i++) {
+				coords.push([i, col]);
+			}
+		}
+		return coords;
+	}
+
 	/**
 	 *
 	 * @param {array} coords - Array of row and column coordinates
@@ -82,7 +110,7 @@ const Board = function () {
 			PubSub.publish("gameOver", this.DOM);
 		}
 	}
-	return { board, addShip, receiveAttack, isOccupied };
+	return { board, addShip, receiveAttack, isOccupied, nextShipLength, newShipCoords };
 };
 
 module.exports = Board;

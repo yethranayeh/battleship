@@ -9,6 +9,8 @@ const Ship = require("./ship");
 const Board = require("./gameboard");
 
 const Events = {
+	gameStarted: "gameStarted",
+	shipPlaced: "shipPlaced",
 	playerClicked: "playerClicked",
 	shipHit: "shipHit",
 	miss: "miss",
@@ -25,39 +27,7 @@ DOM.init();
 
 // Start: Development code
 const player = Player("Bob");
-player.carrier = Ship(5, [
-	[2, 2],
-	[3, 2],
-	[4, 2],
-	[5, 2],
-	[6, 2]
-]);
-player.battleship = Ship(4, [
-	[3, 4],
-	[3, 5],
-	[3, 6],
-	[3, 7]
-]);
-player.cruiser = Ship(3, [
-	[7, 8],
-	[8, 8],
-	[9, 8]
-]);
-player.submarine = Ship(3, [
-	[6, 0],
-	[7, 0],
-	[8, 0]
-]);
-player.destroyer = Ship(2, [
-	[1, 7],
-	[1, 8]
-]);
 player.board = Board();
-player.board.addShip(player.carrier);
-player.board.addShip(player.battleship);
-player.board.addShip(player.cruiser);
-player.board.addShip(player.submarine);
-player.board.addShip(player.destroyer);
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
 
 const computer = Player(null, true);
@@ -82,6 +52,12 @@ player.board.DOM.querySelectorAll(".square").forEach((square) => {
 	square.addEventListener("mouseout", (e) => {
 		PubSub.publish(Events.mouseOut, e.target);
 	});
+	square.addEventListener("click", (e) => {
+		// The square is only highlighted if it is valid.
+		if (e.target.classList.contains("highlight")) {
+			PubSub.publish(Events.shipPlaced, e.target);
+		}
+	});
 });
 
 computer.board.DOM.querySelectorAll(".square").forEach((square) => {
@@ -91,45 +67,21 @@ computer.board.DOM.querySelectorAll(".square").forEach((square) => {
 });
 
 // Event subscriptions
-PubSub.subscribe(Events.playerClicked, (topic, square) => {
-	const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
-	// If clicked square is a ship
-	if (typeof computer.board.board[squareCoords[0]][squareCoords[1]] === "object") {
-		if (!square.classList.contains("hit")) {
-			square.classList.add("hit");
-			player.attack(computer, squareCoords);
-		}
-	} else {
-		// If clicked square is not a ship but also not clicked before, add miss class
-		if (!square.classList.contains("miss")) {
-			square.classList.add("miss");
-			player.attack(computer, squareCoords);
-		}
-	}
-});
-
-PubSub.subscribe(Events.shipHit, (topic, ship) => {
-	console.info("Ship hit!");
-	console.log("Sunk?", ship.isSunk());
-});
-
-PubSub.subscribe(Events.miss, (topic, square) => {
-	console.log("Missed at", square);
-});
-
-PubSub.subscribe(Events.gameOver, (topic, boardContainer) => {
-	boardContainer.classList.add("no-click");
-});
-
 PubSub.subscribe(Events.mouseOver, (topic, square) => {
 	let row = Number(square.getAttribute("data-row"));
 	let col = Number(square.getAttribute("data-col"));
+	const startPoint = [row, col];
+
 	let dataDirection = DOM.shipOrientation() === "horizontal" ? "data-col" : "data-row";
-	if (square.getAttribute(dataDirection) > 5) {
+	let directionStart = Number(square.getAttribute(dataDirection));
+	let shipLength = player.board.nextShipLength();
+	const shipArea = player.board.newShipCoords(startPoint, shipLength, DOM.shipOrientation());
+
+	let areaIsOccupied = shipArea.some((coords) => player.board.isOccupied(coords) === true);
+
+	if (directionStart + shipLength > 10 || areaIsOccupied) {
 		square.classList.add("invalid");
 	} else {
-		const startPoint = [row, col];
-		const shipArea = DOM.shipArea(startPoint, DOM.shipOrientation(), 5);
 		DOM.highlightArea(shipArea, player.board.DOM);
 	}
 });
@@ -137,12 +89,71 @@ PubSub.subscribe(Events.mouseOver, (topic, square) => {
 PubSub.subscribe(Events.mouseOut, (topic, square) => {
 	let row = Number(square.getAttribute("data-row"));
 	let col = Number(square.getAttribute("data-col"));
+	const startPoint = [row, col];
+
 	let dataDirection = DOM.shipOrientation() === "horizontal" ? "data-col" : "data-row";
-	if (square.getAttribute(dataDirection) > 5) {
+	let directionStart = Number(square.getAttribute(dataDirection));
+	let shipLength = player.board.nextShipLength();
+	const shipArea = player.board.newShipCoords(startPoint, shipLength, DOM.shipOrientation());
+
+	let areaIsOccupied = shipArea.some((coords) => player.board.isOccupied(coords) === true);
+
+	if (directionStart + shipLength > 10 || areaIsOccupied) {
 		square.classList.remove("invalid");
 	} else {
-		const startPoint = [row, col];
-		const shipArea = DOM.shipArea(startPoint, DOM.shipOrientation(), 5);
 		DOM.removeHighlight(shipArea, player.board.DOM);
 	}
+});
+
+PubSub.subscribe(Events.shipPlaced, (topic, square) => {
+	let shipLength = player.board.nextShipLength();
+	let direction = DOM.shipOrientation();
+	let startPoint = [Number(square.getAttribute("data-row")), Number(square.getAttribute("data-col"))];
+	let shipCoords = player.board.newShipCoords(startPoint, shipLength, direction);
+
+	let ship = Ship(shipLength, shipCoords);
+	player.board.addShip(ship);
+
+	DOM.removeHighlight(shipCoords, player.board.DOM);
+	DOM.addShip(shipCoords, player.board.DOM);
+	if (!player.board.nextShipLength()) {
+		PubSub.publish(Events.gameStarted);
+	}
+});
+
+PubSub.subscribe(Events.gameStarted, function () {
+	console.warn("Game started!");
+	PubSub.subscribe(Events.playerClicked, (topic, square) => {
+		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
+		// If clicked square is a ship
+		if (typeof computer.board.board[squareCoords[0]][squareCoords[1]] === "object") {
+			if (!square.classList.contains("hit")) {
+				square.classList.add("hit");
+				player.attack(computer, squareCoords);
+			}
+		} else {
+			// If clicked square is not a ship but also not clicked before, add miss class
+			if (!square.classList.contains("miss")) {
+				square.classList.add("miss");
+				player.attack(computer, squareCoords);
+			}
+		}
+	});
+
+	PubSub.subscribe(Events.shipHit, (topic, ship) => {
+		console.info("Ship hit!");
+		console.log("Sunk?", ship.isSunk());
+	});
+
+	PubSub.subscribe(Events.miss, (topic, square) => {
+		console.log("Missed at", square);
+	});
+
+	PubSub.unsubscribe(Events.mouseOver);
+	PubSub.unsubscribe(Events.mouseOut);
+	PubSub.unsubscribe(Events.shipPlaced);
+});
+
+PubSub.subscribe(Events.gameOver, (topic, boardContainer) => {
+	boardContainer.classList.add("no-click");
 });

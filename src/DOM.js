@@ -28,21 +28,6 @@ const DOM = {
 		}
 		return container;
 	},
-	shipArea: function (startPoint, direction, shipLength) {
-		let row = startPoint[0];
-		let col = startPoint[1];
-		let shipArea = [];
-		if (direction === "horizontal") {
-			for (let i = col; i < col + shipLength; i++) {
-				shipArea.push([row, i]);
-			}
-		} else if (direction === "vertical") {
-			for (let i = row; i < row + shipLength; i++) {
-				shipArea.push([i, col]);
-			}
-		}
-		return shipArea;
-	},
 	highlightArea: function (shipArea, container) {
 		for (let i = 0; i < shipArea.length; i++) {
 			let square = container.querySelector(`[data-row="${shipArea[i][0]}"][data-col="${shipArea[i][1]}"]`);
@@ -53,6 +38,12 @@ const DOM = {
 		for (let i = 0; i < shipArea.length; i++) {
 			let square = container.querySelector(`[data-row="${shipArea[i][0]}"][data-col="${shipArea[i][1]}"]`);
 			square.classList.remove("highlight");
+		}
+	},
+	addShip: function (shipArea, container) {
+		for (let i = 0; i < shipArea.length; i++) {
+			let square = container.querySelector(`[data-row="${shipArea[i][0]}"][data-col="${shipArea[i][1]}"]`);
+			square.classList.add("ship");
 		}
 	},
 	shipOrientation: function () {
