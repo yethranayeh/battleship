@@ -77,9 +77,9 @@ PubSub.subscribe(Events.mouseOver, (topic, square) => {
 	let shipLength = player.board.nextShipLength();
 	const shipArea = player.board.newShipCoords(startPoint, shipLength, DOM.shipOrientation());
 
-	let areaIsOccupied = shipArea.some((coords) => player.board.isOccupied(coords) === true);
+	const areaIsOccupied = () => shipArea.some((coords) => player.board.isOccupied(coords) === true);
 
-	if (directionStart + shipLength > 10 || areaIsOccupied) {
+	if (directionStart + shipLength > 10 || areaIsOccupied()) {
 		square.classList.add("invalid");
 	} else {
 		DOM.highlightArea(shipArea, player.board.DOM);
@@ -96,9 +96,9 @@ PubSub.subscribe(Events.mouseOut, (topic, square) => {
 	let shipLength = player.board.nextShipLength();
 	const shipArea = player.board.newShipCoords(startPoint, shipLength, DOM.shipOrientation());
 
-	let areaIsOccupied = shipArea.some((coords) => player.board.isOccupied(coords) === true);
+	const areaIsOccupied = () => shipArea.some((coords) => player.board.isOccupied(coords) === true);
 
-	if (directionStart + shipLength > 10 || areaIsOccupied) {
+	if (directionStart + shipLength > 10 || areaIsOccupied()) {
 		square.classList.remove("invalid");
 	} else {
 		DOM.removeHighlight(shipArea, player.board.DOM);

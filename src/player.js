@@ -2,7 +2,7 @@
 
 const Player = function (playerName, computer) {
 	if (/^computer$/i.test(playerName)) {
-		throw new Error("Computer player name is reserved");
+		throw new Error("'Computer' player name is reserved");
 	}
 	let name = playerName || (computer ? "Computer" : "Player");
 	const shipLengths = [5, 4, 3, 3, 2];
