@@ -54,6 +54,7 @@
 	width: var(--square-size);
 	height: var(--square-size);
 	border: 1px solid #ccc;
+	background-color: transparent;
 	background-color: antiquewhite;
 }
 

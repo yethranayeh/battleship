@@ -3,6 +3,7 @@
 import "./reset.css";
 import "./style.css";
 import PubSub from "pubsub-js";
+import App from "./App";
 import DOM from "./DOM";
 const Player = require("./player");
 const Ship = require("./ship");
@@ -10,13 +11,16 @@ const Board = require("./gameboard");
 
 const Events = {
 	gameStarted: "gameStarted",
+	mouseOver: "mouseOver",
+	mouseOut: "mouseOut",
 	shipPlaced: "shipPlaced",
-	playerClicked: "playerClicked",
+	playerAttacked: "playerAttacked",
+	computerAttacked: "computerAttacked",
 	shipHit: "shipHit",
 	miss: "miss",
-	gameOver: "gameOver",
-	mouseOver: "mouseOver",
-	mouseOut: "mouseOut"
+	nextTurn: "nextTurn",
+	turnSwitched: "turnSwitched",
+	gameOver: "gameOver"
 };
 
 /**
@@ -27,10 +31,12 @@ DOM.init();
 
 // Start: Development code
 const player = Player("Bob");
+App.players.push(player.name);
 player.board = Board();
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
 
 const computer = Player(null, true);
+App.players.push(computer.name);
 computer.board = Board();
 
 for (let length of computer.shipLengths) {
@@ -62,7 +68,7 @@ player.board.DOM.querySelectorAll(".square").forEach((square) => {
 
 computer.board.DOM.querySelectorAll(".square").forEach((square) => {
 	square.addEventListener("click", (e) => {
-		PubSub.publish(Events.playerClicked, e.target);
+		PubSub.publish(Events.playerAttacked, e.target);
 	});
 });
 
@@ -122,32 +128,65 @@ PubSub.subscribe(Events.shipPlaced, (topic, square) => {
 });
 
 PubSub.subscribe(Events.gameStarted, function () {
-	console.warn("Game started!");
-	PubSub.subscribe(Events.playerClicked, (topic, square) => {
+	PubSub.subscribe(Events.playerAttacked, (topic, square) => {
 		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
 		// If clicked square is a ship
 		if (typeof computer.board.board[squareCoords[0]][squareCoords[1]] === "object") {
 			if (!square.classList.contains("hit")) {
 				square.classList.add("hit");
-				player.attack(computer, squareCoords);
 			}
 		} else {
 			// If clicked square is not a ship but also not clicked before, add miss class
 			if (!square.classList.contains("miss")) {
 				square.classList.add("miss");
-				player.attack(computer, squareCoords);
 			}
 		}
+		player.attack(computer, squareCoords);
+		PubSub.publish(Events.turnSwitched);
+	});
+
+	PubSub.subscribe(Events.computerAttacked, (topic, square) => {
+		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
+		// If clicked square is a ship
+		if (typeof player.board.board[squareCoords[0]][squareCoords[1]] === "object") {
+			if (!square.classList.contains("hit")) {
+				square.classList.add("hit");
+			}
+		} else {
+			// If clicked square is not a ship but also not clicked before, add miss class
+			if (!square.classList.contains("miss")) {
+				square.classList.add("miss");
+			}
+		}
+		computer.attack(player, squareCoords);
+		PubSub.publish(Events.turnSwitched);
 	});
 
 	PubSub.subscribe(Events.shipHit, (topic, ship) => {
-		console.info("Ship hit!");
-		console.log("Sunk?", ship.isSunk());
+		// console.info("Ship hit!");
+		// console.log("Sunk?", ship.isSunk());
 	});
 
 	PubSub.subscribe(Events.miss, (topic, square) => {
-		console.log("Missed at", square);
+		// console.log("Missed at", square);
 	});
+
+	PubSub.subscribe(Events.nextTurn, (topic, data) => {
+		App.switchTurn();
+	});
+
+	PubSub.subscribe(Events.turnSwitched, function () {
+		if (App.currentTurn() === computer.name) {
+			let randomCoords = computer.nextAttackCoords();
+			let randomSquare = document.querySelector(
+				`.square[data-row="${randomCoords[0]}"][data-col="${randomCoords[1]}"]`
+			);
+			PubSub.publish(Events.computerAttacked, randomSquare);
+		}
+		PubSub.publish(Events.nextTurn);
+	});
+
+	PubSub.publish(Events.nextTurn);
 
 	PubSub.unsubscribe(Events.mouseOver);
 	PubSub.unsubscribe(Events.mouseOut);
@@ -155,5 +194,12 @@ PubSub.subscribe(Events.gameStarted, function () {
 });
 
 PubSub.subscribe(Events.gameOver, (topic, boardContainer) => {
-	boardContainer.classList.add("no-click");
+	const winner = boardContainer === player.board.DOM ? computer.name : player.name;
+	// DOM.displayGameResult(winner);
+	computer.board.DOM.classList.add("no-click");
+
+	PubSub.unsubscribe(Events.playerAttacked);
+	PubSub.unsubscribe(Events.computerAttacked);
+	PubSub.unsubscribe(Events.nextTurn);
+	PubSub.unsubscribe(Events.turnSwitched);
 });

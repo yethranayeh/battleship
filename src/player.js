@@ -42,6 +42,8 @@ const Player = function (playerName, computer) {
 				row = getRandomInt(10);
 				col = getRandomInt(10);
 			}
+			previouslyHit[`${row}-${col}`] = true;
+			return [row, col];
 		}
 	}
 
