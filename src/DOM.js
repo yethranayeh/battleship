@@ -48,5 +48,8 @@ const DOM = {
 	},
 	shipOrientation: function () {
 		return this.orientationForm.querySelector("input:checked").value;
+	},
+	hideOrientationForm: function () {
+		this.orientationForm.classList.add("d-none");
 	}
 };
