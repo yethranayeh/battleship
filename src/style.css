@@ -57,23 +57,36 @@
 	background-color: antiquewhite;
 }
 
+#computer-board .square {
+	cursor: pointer;
+}
+
+#computer-board .square:hover {
+	background-color: #ccc;
+}
+
 .square.ship {
 	background-color: royalblue;
+	/* pointer-events: none; */
 }
 
 .square.hit {
 	background-color: red;
+	pointer-events: none;
 }
 
 .square.miss {
 	background-color: darkgray;
+	pointer-events: none;
 }
 
 .square.highlight {
 	background-color: yellow;
+	cursor: pointer;
 }
 
 .square.invalid {
 	background-color: darkred;
+	cursor: not-allowed;
 }
 /* End: Board */
