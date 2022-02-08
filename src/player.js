@@ -5,6 +5,7 @@ const Player = function (playerName, computer) {
 		throw new Error("Computer player name is reserved");
 	}
 	let name = playerName || (computer ? "Computer" : "Player");
+	const shipLengths = [5, 4, 3, 3, 2];
 
 	/**
 	 *
@@ -88,7 +89,7 @@ const Player = function (playerName, computer) {
 		return coords;
 	}
 
-	let obj = { name, attack };
+	let obj = { name, attack, shipLengths };
 	if (computer === true) {
 		obj.nextAttackCoords = nextAttackCoords;
 		obj.getRandomCoords = getRandomCoords;

@@ -12,8 +12,16 @@ const Events = {
 	playerClicked: "playerClicked",
 	shipHit: "shipHit",
 	miss: "miss",
-	gameOver: "gameOver"
+	gameOver: "gameOver",
+	mouseOver: "mouseOver",
+	mouseOut: "mouseOut"
 };
+
+/**
+ * Initializes certain DOM elements so they can be referenced as its attributes
+ * e.g. DOM.orientationForm
+ */
+DOM.init();
 
 // Start: Development code
 const player = Player("Bob");
@@ -55,7 +63,6 @@ player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#pl
 const computer = Player(null, true);
 computer.board = Board();
 
-computer.shipLengths = [5, 4, 3, 3, 2];
 for (let length of computer.shipLengths) {
 	let ship = Ship(length, computer.getRandomCoords(length));
 	computer.board.addShip(ship);
@@ -64,6 +71,19 @@ computer.board.DOM = DOM.initBoard(computer.board.board, document.querySelector(
 // End: Development code
 
 // Event listeners and publishing
+DOM.orientationForm.addEventListener("change", function (e) {
+	PubSub.publish(Events.orientationChanged, e.target.value);
+});
+
+player.board.DOM.querySelectorAll(".square").forEach((square) => {
+	square.addEventListener("mouseover", (e) => {
+		PubSub.publish(Events.mouseOver, e.target);
+	});
+	square.addEventListener("mouseout", (e) => {
+		PubSub.publish(Events.mouseOut, e.target);
+	});
+});
+
 computer.board.DOM.querySelectorAll(".square").forEach((square) => {
 	square.addEventListener("click", (e) => {
 		PubSub.publish(Events.playerClicked, e.target);
@@ -99,4 +119,30 @@ PubSub.subscribe(Events.miss, (topic, square) => {
 
 PubSub.subscribe(Events.gameOver, (topic, boardContainer) => {
 	boardContainer.classList.add("no-click");
+});
+
+PubSub.subscribe(Events.mouseOver, (topic, square) => {
+	let row = Number(square.getAttribute("data-row"));
+	let col = Number(square.getAttribute("data-col"));
+	let dataDirection = DOM.shipOrientation() === "horizontal" ? "data-col" : "data-row";
+	if (square.getAttribute(dataDirection) > 5) {
+		square.classList.add("invalid");
+	} else {
+		const startPoint = [row, col];
+		const shipArea = DOM.shipArea(startPoint, DOM.shipOrientation(), 5);
+		DOM.highlightArea(shipArea, player.board.DOM);
+	}
+});
+
+PubSub.subscribe(Events.mouseOut, (topic, square) => {
+	let row = Number(square.getAttribute("data-row"));
+	let col = Number(square.getAttribute("data-col"));
+	let dataDirection = DOM.shipOrientation() === "horizontal" ? "data-col" : "data-row";
+	if (square.getAttribute(dataDirection) > 5) {
+		square.classList.remove("invalid");
+	} else {
+		const startPoint = [row, col];
+		const shipArea = DOM.shipArea(startPoint, DOM.shipOrientation(), 5);
+		DOM.removeHighlight(shipArea, player.board.DOM);
+	}
 });
