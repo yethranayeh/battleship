@@ -42,6 +42,51 @@
 
 /* End: General */
 
+/* Main container */
+.container {
+	padding: 4rem 6rem;
+}
+
+/* Start: Info container */
+.info-container {
+	border: 2px solid black;
+	border-radius: 0.5rem;
+	height: max-content;
+	padding: 1em;
+
+	align-items: center;
+}
+
+.info-container .directive {
+	font-size: 1.2em;
+	display: flex;
+	width: max-content;
+	padding-bottom: 0.4em;
+	justify-content: center;
+	margin-bottom: 1em;
+	border-bottom: 1px solid black;
+}
+
+.info-container .directive i {
+	margin-right: 0.5em;
+	color: orange;
+}
+
+.info-container .fa-ul {
+	margin-left: 0;
+}
+
+.info-container li {
+	margin-bottom: 0.2em;
+}
+
+.info-container .fa-li {
+	position: relative;
+	left: 0;
+	margin-right: 0.4em;
+}
+/* End: Info container */
+
 /* Start: Board */
 
 .container .row {
@@ -98,9 +143,12 @@
 
 /* Media queries */
 @media screen and (max-width: 768px) {
+	.container {
+		padding: 3rem;
+	}
+
 	.info-container {
 		order: 1;
-		flex-basis: 100%;
 	}
 
 	.player-board {
@@ -127,6 +175,10 @@
 }
 
 @media screen and (max-width: 576px) {
+	.container {
+		padding: 1.5rem;
+	}
+
 	.board {
 		--square-size: 1.6rem;
 	}

@@ -59,6 +59,7 @@ const DOM = {
 
 		const directive = (function () {
 			let directive = document.createElement("div");
+			directive.classList.add("directive");
 			let icon = document.createElement("i");
 			icon.classList.add("fas", "fa-info-circle");
 
@@ -76,12 +77,24 @@ const DOM = {
 			const rules = [
 				"Ships can be arranged either horizontally or vertically",
 				"Ships cannot overlap",
-				"There are 5 total ships with lengths of 2, 3, 3, 4, and 5"
+				"There are 5 total ships with lengths of 2, 3, 3, 4, and 5",
+				"First one to sink all ship units wins!"
 			];
 			for (let rule of rules) {
 				let li = document.createElement("li");
-				li.classList.add("fa-li");
-				li.textContent = rule;
+
+				let span = document.createElement("span");
+				span.classList.add("fa-li");
+
+				let icon = document.createElement("i");
+				icon.classList.add("fas", "fa-chevron-right");
+
+				let text = document.createElement("span");
+				text.textContent = rule;
+
+				span.appendChild(icon);
+				li.appendChild(span);
+				li.appendChild(text);
 				info.appendChild(li);
 			}
 			return info;
