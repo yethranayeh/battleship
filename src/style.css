@@ -7,6 +7,19 @@
 	--border-radius: 0.5rem;
 	--padding-sm: 0.4rem;
 	--margin-sm: 0.4rem;
+
+	/* --dark: #231f20; */
+	--dark: #232324;
+	--dark-light: #3a3a3a;
+	--light: #f5f6f6;
+	--light-dark: #e5e6e6;
+	--light-darker: #ccc;
+	--primary: #286c89;
+	--primary-dark: #364954;
+	--secondary: #99aebb;
+	--ship: #629fbe;
+	--warning: #e28600;
+	--danger: #dc4d4c;
 }
 
 *,
@@ -44,6 +57,11 @@
 	display: none;
 }
 
+body {
+	color: var(--dark);
+	background-color: var(--light-dark);
+}
+
 /* End: General */
 
 /* Navbar */
@@ -54,18 +72,27 @@ nav {
 	flex-wrap: wrap;
 	justify-content: space-between;
 	padding: 1em 3rem;
-	background-color: #ccc;
+
+	background-color: var(--primary);
+	color: var(--light);
 }
 
 nav h1 {
 	font-size: 1.3em;
+	font-weight: bold;
 }
 
 nav span {
 	padding: var(--padding-sm) 0.6em;
-	border: 2px solid black;
+	border: 2px solid var(--light-dark);
 	border-radius: var(--border-radius);
 	cursor: pointer;
+	transition: color 250ms ease-out, background-color 250ms ease-out;
+}
+
+nav span:hover {
+	color: var(--dark);
+	background-color: var(--light);
 }
 
 nav span * {
@@ -87,7 +114,8 @@ nav span i {
 
 /* Start: Info container */
 .info-container {
-	border: 2px solid black;
+	background-color: var(--light);
+	border: 2px solid var(--dark);
 	border-radius: var(--border-radius);
 	height: max-content;
 	padding: 1em;
@@ -102,12 +130,14 @@ nav span i {
 	padding-bottom: var(--padding-sm);
 	justify-content: center;
 	margin-bottom: 1em;
-	border-bottom: 1px solid black;
+
+	color: var(--dark);
+	border-bottom: 1px solid var(--dark);
 }
 
 .info-container .directive i {
 	margin-right: 0.5em;
-	color: orange;
+	color: var(--warning);
 }
 
 .info-container .fa-ul {
@@ -122,6 +152,7 @@ nav span i {
 	position: relative;
 	left: 0;
 	margin-right: var(--margin-sm);
+	color: var(--primary);
 }
 /* End: Info container */
 
@@ -139,6 +170,8 @@ nav span i {
 
 .board-info h2 {
 	font-size: 1.2em;
+	font-weight: bold;
+	color: var(--primary);
 }
 
 .board-info input {
@@ -152,17 +185,19 @@ nav span i {
 .board-info label {
 	cursor: pointer;
 	padding: var(--padding-sm);
-	border: 2px solid black;
+	background-color: var(--light);
+	border: 2px solid var(--dark);
 	border-radius: var(--border-radius);
 	transition: background-color 250ms ease-out;
 }
 
 .board-info input:hover + label {
-	background-color: #ccc;
+	background-color: var(--light-darker);
+	color: var(--dark);
 }
 
 .board-info input:checked + label {
-	background-color: black;
+	background-color: var(--dark);
 	color: white;
 }
 
@@ -179,15 +214,16 @@ nav span i {
 .board {
 	display: grid;
 	grid-template-columns: repeat(10, var(--square-size));
+	border: 1px solid var(--dark);
 }
 
 .square {
 	width: var(--square-size);
 	height: var(--square-size);
-	border: 1px solid #ccc;
-	background-color: transparent;
-	background-color: antiquewhite;
-	transition: width 350ms cubic-bezier(0.83, 0, 0.17, 1), height 400ms cubic-bezier(0.87, 0, 0.13, 1);
+	border: 1px solid var(--dark);
+	background-color: var(--light);
+	transition: width 350ms cubic-bezier(0.83, 0, 0.17, 1), height 400ms cubic-bezier(0.87, 0, 0.13, 1),
+		background-color 250ms ease-out;
 }
 
 #computer-board .square {
@@ -195,31 +231,31 @@ nav span i {
 }
 
 #computer-board .square:hover {
-	background-color: #ccc;
+	background-color: var(--light-darker);
 }
 
 .square.ship {
-	background-color: royalblue;
+	background-color: var(--ship);
 	/* pointer-events: none; */
 }
 
 .square.hit {
-	background-color: red;
+	background-color: var(--danger);
 	pointer-events: none;
 }
 
 .square.miss {
-	background-color: darkgray;
+	background-color: var(--dark-light);
 	pointer-events: none;
 }
 
 .square.highlight {
-	background-color: yellow;
+	background-color: var(--secondary);
 	cursor: pointer;
 }
 
 .square.invalid {
-	background-color: darkred;
+	background-color: var(--danger);
 	cursor: not-allowed;
 }
 /* End: Board */
