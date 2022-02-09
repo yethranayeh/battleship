@@ -178,6 +178,9 @@ nav span i {
 
 /* Media queries */
 @media screen and (max-width: 768px) {
+	nav {
+		padding: 1em 1.5rem;
+	}
 	.container {
 		padding: 3rem;
 	}
