@@ -4,6 +4,9 @@
 :root {
 	--square-size: 2rem;
 	--fs: 1rem;
+	--border-radius: 0.5rem;
+	--padding-sm: 0.4rem;
+	--margin-sm: 0.4rem;
 }
 
 *,
@@ -59,9 +62,9 @@ nav h1 {
 }
 
 nav span {
-	padding: 0.4em 0.6em;
-	border: 1px solid black;
-	border-radius: 0.5rem;
+	padding: var(--padding-sm) 0.6em;
+	border: 2px solid black;
+	border-radius: var(--border-radius);
 	cursor: pointer;
 }
 
@@ -70,7 +73,7 @@ nav span * {
 }
 
 nav span i {
-	margin-right: 0.4em;
+	margin-right: var(--margin-sm);
 }
 
 .fa-github {
@@ -85,7 +88,7 @@ nav span i {
 /* Start: Info container */
 .info-container {
 	border: 2px solid black;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius);
 	height: max-content;
 	padding: 1em;
 
@@ -96,7 +99,7 @@ nav span i {
 	font-size: 1.2em;
 	display: flex;
 	width: max-content;
-	padding-bottom: 0.4em;
+	padding-bottom: var(--padding-sm);
 	justify-content: center;
 	margin-bottom: 1em;
 	border-bottom: 1px solid black;
@@ -118,7 +121,7 @@ nav span i {
 .info-container .fa-li {
 	position: relative;
 	left: 0;
-	margin-right: 0.4em;
+	margin-right: var(--margin-sm);
 }
 /* End: Info container */
 
@@ -127,6 +130,50 @@ nav span i {
 .container .row {
 	gap: var(--square-size);
 	justify-content: space-between;
+}
+
+.board-info {
+	padding: var(--padding-sm) 0;
+	margin-bottom: var(--margin-sm);
+}
+
+.board-info h2 {
+	font-size: 1.2em;
+}
+
+.board-info input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+}
+
+.board-info label {
+	cursor: pointer;
+	padding: var(--padding-sm);
+	border: 2px solid black;
+	border-radius: var(--border-radius);
+	transition: background-color 250ms ease-out;
+}
+
+.board-info input:hover + label {
+	background-color: #ccc;
+}
+
+.board-info input:checked + label {
+	background-color: black;
+	color: white;
+}
+
+#computer-board {
+	opacity: 1;
+	transition: opacity 300ms ease-out;
+}
+
+#computer-board.unavailable {
+	opacity: 0.3 !important;
+	pointer-events: none;
 }
 
 .board {
@@ -140,6 +187,7 @@ nav span i {
 	border: 1px solid #ccc;
 	background-color: transparent;
 	background-color: antiquewhite;
+	transition: width 350ms cubic-bezier(0.83, 0, 0.17, 1), height 400ms cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 #computer-board .square {
@@ -181,6 +229,7 @@ nav span i {
 	nav {
 		padding: 1em 1.5rem;
 	}
+
 	.container {
 		padding: 3rem;
 	}
@@ -197,7 +246,8 @@ nav span i {
 		order: 3;
 	}
 
-	.board {
+	#player-board,
+	#computer-board.unavailable {
 		--square-size: 1.9rem;
 	}
 }
@@ -207,7 +257,8 @@ nav span i {
 		justify-content: center;
 	}
 
-	.board {
+	#player-board,
+	#computer-board.unavailable {
 		--square-size: 1.8rem;
 	}
 }
@@ -217,7 +268,8 @@ nav span i {
 		padding: 1.5rem;
 	}
 
-	.board {
+	#player-board,
+	#computer-board.unavailable {
 		--square-size: 1.6rem;
 	}
 }

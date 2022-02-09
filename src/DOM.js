@@ -107,5 +107,11 @@ const DOM = {
 	},
 	displayGameInfo: function () {
 		this.infoContainer.innerHTML = "";
+	},
+	makeBoardUnavailable: function (container) {
+		container.classList.add("unavailable");
+	},
+	makeBoardAvailable: function (container) {
+		container.classList.remove("unavailable");
 	}
 };
