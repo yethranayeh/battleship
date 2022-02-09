@@ -5,6 +5,8 @@ export { DOM as default };
 const DOM = {
 	init: function () {
 		this.orientationForm = document.querySelector(".ship-orientation");
+		this.infoContainer = document.querySelector(".info-container");
+		this.displayPreGameInfo();
 	},
 	/**
 	 *
@@ -51,5 +53,44 @@ const DOM = {
 	},
 	hideOrientationForm: function () {
 		this.orientationForm.classList.add("d-none");
+	},
+	displayPreGameInfo: function () {
+		this.infoContainer.innerHTML = "";
+
+		const directive = (function () {
+			let directive = document.createElement("div");
+			let icon = document.createElement("i");
+			icon.classList.add("fas", "fa-info-circle");
+
+			let instruction = document.createElement("p");
+			instruction.textContent = "Place your ships on the board";
+			directive.appendChild(icon);
+			directive.appendChild(instruction);
+			return directive;
+		})();
+
+		const info = (function () {
+			let info = document.createElement("ul");
+			info.classList.add("fa-ul");
+
+			const rules = [
+				"Ships can be arranged either horizontally or vertically",
+				"Ships cannot overlap",
+				"There are 5 total ships with lengths of 2, 3, 3, 4, and 5"
+			];
+			for (let rule of rules) {
+				let li = document.createElement("li");
+				li.classList.add("fa-li");
+				li.textContent = rule;
+				info.appendChild(li);
+			}
+			return info;
+		})();
+
+		this.infoContainer.appendChild(directive);
+		this.infoContainer.appendChild(info);
+	},
+	displayGameInfo: function () {
+		this.infoContainer.innerHTML = "";
 	}
 };

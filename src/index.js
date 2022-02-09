@@ -129,6 +129,7 @@ PubSub.subscribe(Events.shipPlaced, (topic, square) => {
 
 PubSub.subscribe(Events.gameStarted, function () {
 	DOM.hideOrientationForm();
+	DOM.displayGameInfo();
 	PubSub.subscribe(Events.playerAttacked, (topic, square) => {
 		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
 		// If clicked square is a ship
