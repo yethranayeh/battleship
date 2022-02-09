@@ -47,6 +47,11 @@ computer.board.DOM = DOM.initBoard(computer.board.board, document.querySelector(
 // End: Development code
 
 // Event listeners and publishing
+DOM.btnRestart.addEventListener("click", () => {
+	// Refresh the page
+	location.reload();
+});
+
 DOM.orientationForm.addEventListener("change", function (e) {
 	PubSub.publish(Events.orientationChanged, e.target.value);
 });

@@ -3,6 +3,7 @@
 /* Start: General */
 :root {
 	--square-size: 2rem;
+	--fs: 1rem;
 }
 
 *,
@@ -42,9 +43,43 @@
 
 /* End: General */
 
+/* Navbar */
+nav {
+	--fs: 1.1rem;
+	font-size: var(--fs);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 1em 3rem;
+	background-color: #ccc;
+}
+
+nav h1 {
+	font-size: 1.3em;
+}
+
+nav span {
+	padding: 0.4em 0.6em;
+	border: 1px solid black;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+nav span * {
+	pointer-events: none;
+}
+
+nav span i {
+	margin-right: 0.4em;
+}
+
+.fa-github {
+	margin: 0;
+}
+
 /* Main container */
 .container {
-	padding: 4rem 6rem;
+	padding: 2rem 3rem;
 }
 
 /* Start: Info container */

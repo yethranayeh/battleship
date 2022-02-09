@@ -4,6 +4,8 @@ export { DOM as default };
 
 const DOM = {
 	init: function () {
+		this.navbar = document.querySelector("nav");
+		this.btnRestart = document.querySelector("#restart");
 		this.orientationForm = document.querySelector(".ship-orientation");
 		this.infoContainer = document.querySelector(".info-container");
 		this.displayPreGameInfo();
