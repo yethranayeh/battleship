@@ -2,7 +2,7 @@
 
 # Battleship
 
-_Battleship_ is web implementation of the traditional two-player strategy game.
+_Battleship_ is a web implementation of the traditional two-player strategy game. Since it is a _Progressive Web Application_ it can be installed to home screens on mobile devices and can be played offline once it is installed.
 
 # How to Play
 
