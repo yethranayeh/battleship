@@ -79,7 +79,7 @@ const DOM = {
 			const rules = [
 				"Ships can be arranged either horizontally or vertically",
 				"Ships cannot overlap",
-				"There are 5 total ships with lengths of 2, 3, 3, 4, and 5",
+				"There are 5 total ships with lengths of 5, 4, 3, 3 and 2",
 				"First one to sink all ship units wins!"
 			];
 			for (let rule of rules) {
