@@ -100,6 +100,10 @@ nav {
 	font-weight: bold;
 }
 
+nav a {
+	color: inherit;
+}
+
 nav span {
 	padding: var(--padding-sm) 0.6em;
 	border: 2px solid var(--light-dark);
