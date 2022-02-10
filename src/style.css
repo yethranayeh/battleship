@@ -28,6 +28,15 @@
 	box-sizing: border-box;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	color: var(--dark);
+	background-color: var(--light-dark);
+}
+
 .row {
 	display: flex;
 	flex-wrap: wrap;
@@ -55,11 +64,6 @@
 
 .d-none {
 	display: none;
-}
-
-body {
-	color: var(--dark);
-	background-color: var(--light-dark);
 }
 
 /* End: General */
@@ -281,7 +285,7 @@ nav span i {
 
 	#player-board,
 	#computer-board.unavailable {
-		--square-size: 1.9rem;
+		--square-size: 1.7rem;
 	}
 }
 
@@ -292,7 +296,7 @@ nav span i {
 
 	#player-board,
 	#computer-board.unavailable {
-		--square-size: 1.8rem;
+		--square-size: 1.6rem;
 	}
 }
 
@@ -301,7 +305,7 @@ nav span i {
 		padding: 1.5rem;
 	}
 
-	#player-board,
+	#computer-board,
 	#computer-board.unavailable {
 		--square-size: 1.6rem;
 	}
