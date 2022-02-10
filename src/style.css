@@ -62,6 +62,13 @@ body {
 	pointer-events: none;
 }
 
+.disable-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .d-none {
 	display: none;
 }
@@ -75,13 +82,20 @@ nav {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	padding: 1em 3rem;
+	align-items: center;
+	padding: var(--padding-sm) 3rem;
 
 	background-color: var(--primary);
 	color: var(--light);
 }
 
-nav h1 {
+.branding {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.branding h1 {
 	font-size: 1.3em;
 	font-weight: bold;
 }
@@ -272,7 +286,7 @@ nav span i {
 /* Media queries */
 @media screen and (max-width: 768px) {
 	nav {
-		padding: 1em 1.5rem;
+		padding: 0.2em 1.5rem;
 	}
 
 	.container {

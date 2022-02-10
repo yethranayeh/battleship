@@ -30,7 +30,7 @@ const Events = {
 DOM.init();
 
 // Start: Development code
-const player = Player("Bob");
+const player = Player();
 App.players.push(player.name);
 player.board = Board();
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
