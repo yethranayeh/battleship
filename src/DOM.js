@@ -136,6 +136,21 @@ const DOM = {
 
 		this.infoContainer.appendChild(paragraph);
 	},
+	displayGameResult: function (winner) {
+		this.infoContainer.innerHTML = "";
+		let paragraph = document.createElement("p");
+		paragraph.classList.add("winner-text");
+
+		let icon = document.createElement("i");
+		icon.classList.add("fas", "fa-trophy");
+		paragraph.appendChild(icon);
+
+		let text = document.createElement("span");
+		text.textContent = `${winner} wins!`;
+		paragraph.appendChild(text);
+
+		this.infoContainer.appendChild(paragraph);
+	},
 	makeBoardUnavailable: function (container) {
 		container.classList.add("unavailable");
 	},

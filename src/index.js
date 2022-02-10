@@ -252,7 +252,7 @@ PubSub.subscribe(Events.gameStarted, function () {
 
 PubSub.subscribe(Events.gameOver, (topic, boardContainer) => {
 	const winner = boardContainer === player.board.DOM ? computer.name : player.name;
-	// DOM.displayGameResult(winner);
+	DOM.displayGameResult(winner);
 	computer.board.DOM.classList.add("no-click");
 
 	PubSub.unsubscribe(Events.playerAttacked);

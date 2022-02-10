@@ -192,6 +192,15 @@ nav span i {
 	font-size: 1.1em;
 	font-weight: bold;
 }
+
+.winner-text {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.winner-text i {
+	color: var(--primary);
+}
 /* End: Info container */
 
 /* Start: Board */
