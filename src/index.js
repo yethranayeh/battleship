@@ -36,8 +36,8 @@ player.board = Board();
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
 
 const computer = Player(null, true);
-computer.minResponseTime = 400;
-computer.maxResponseTime = 1000;
+computer.minResponseTime = 350;
+computer.maxResponseTime = 650;
 App.players.push(computer.name);
 computer.board = Board();
 
