@@ -230,10 +230,6 @@ nav span i {
 	cursor: pointer;
 }
 
-#computer-board .square:hover {
-	background-color: var(--light-darker);
-}
-
 .square.ship {
 	background-color: var(--ship);
 	/* pointer-events: none; */
@@ -308,4 +304,20 @@ nav span i {
 	#computer-board.unavailable {
 		--square-size: 1.6rem;
 	}
+}
+
+/* Rule for laptop, desktop devices etc. only */
+@media only screen and (hover: hover) {
+	/* This rule is disabled on mobile,
+	because tapping a square would apply hover color
+	instead of "miss" or "hit" colors.
+	They would be visible only after the user taps another square. */
+	#computer-board .square:hover {
+		background-color: var(--light-darker);
+	}
+}
+
+/* Rule for mobile devices only */
+@media only screen and (hover: none) and (pointer: coarse) {
+	/* Mobile based styles */
 }
