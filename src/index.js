@@ -9,6 +9,22 @@ const Player = require("./player");
 const Ship = require("./ship");
 const Board = require("./gameboard");
 
+// Service worker
+// if ("serviceWorker" in navigator) {
+// 	window.addEventListener("load", () => {
+// 		navigator.serviceWorker
+// 			.register("./sw.js")
+// 			.then((registration) => {
+// 				// service worker registered
+// 			})
+// 			.catch((err) => {
+// 				// registration unsuccessful
+// 			});
+// 	});
+// } else {
+// 	console.log(`Service worker is not supported in this browser.`);
+// }
+
 const Events = {
 	gameStarted: "gameStarted",
 	mouseOver: "mouseOver",
@@ -29,12 +45,14 @@ const Events = {
  */
 DOM.init();
 
-// Start: Development code
+// Start: Player
 const player = Player();
 App.players.push(player.name);
 player.board = Board();
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
+// End: Player
 
+// Start: Computer
 const computer = Player(null, true);
 computer.minResponseTime = 350;
 computer.maxResponseTime = 650;
@@ -46,7 +64,7 @@ for (let length of computer.shipLengths) {
 	computer.board.addShip(ship);
 }
 computer.board.DOM = DOM.initBoard(computer.board.board, document.querySelector("#computer-board"));
-// End: Development code
+// End: Computer
 
 // Event listeners and publishing
 DOM.btnRestart.addEventListener("click", () => {
