@@ -35,6 +35,7 @@ html {
 body {
 	color: var(--dark);
 	background-color: var(--light-dark);
+	font-family: "Dosis", Arial, sans-serif;
 }
 
 .row {
@@ -98,6 +99,8 @@ nav {
 .branding h1 {
 	font-size: 1.3em;
 	font-weight: bold;
+	letter-spacing: 2px;
+	font-family: "Righteous", Arial, sans-serif;
 }
 
 nav a {
@@ -146,7 +149,8 @@ nav span i {
 }
 
 .info-container .directive {
-	font-size: 1.2em;
+	font-size: 1.3em;
+	font-weight: bold;
 	display: flex;
 	width: max-content;
 	padding-bottom: var(--padding-sm);
@@ -164,6 +168,7 @@ nav span i {
 
 .info-container .fa-ul {
 	margin-left: 0;
+	font-size: 1.2em;
 }
 
 .info-container li {
@@ -184,6 +189,8 @@ nav span i {
 
 .turn-indicator .turn--current-player {
 	border-bottom: 2px solid var(--primary);
+	font-size: 1.1em;
+	font-weight: bold;
 }
 /* End: Info container */
 
@@ -293,13 +300,26 @@ nav span i {
 		padding: 0.2em 1.5rem;
 	}
 
+	.branding h1 {
+		font-size: 1em;
+	}
+
 	.container {
 		padding: 3rem;
+	}
+
+	.directive {
+		font-size: 1.1em;
+	}
+
+	.info-container .fa-ul {
+		font-size: 1.1em;
 	}
 
 	.info-container {
 		order: 1;
 		width: 100%;
+		margin-bottom: 1em;
 	}
 
 	.player-board {

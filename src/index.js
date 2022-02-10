@@ -1,5 +1,7 @@
 /** @format */
 
+import "@fontsource/righteous";
+import "@fontsource/dosis";
 import "./reset.css";
 import "./style.css";
 import PubSub from "pubsub-js";
