@@ -1,0 +1,88 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Battleship</title>
+		<meta
+			name="description"
+			content="Battleship is a traditional two-player game of strategy and luck. Players take turns placing ships on a 10x10 grid. The goal is to sink all of the opponent's ships before they sink yours."
+		/>
+
+		<link rel="manifest" href="./manifest.json" />
+		<meta name="theme-color" content="#411462" />
+
+		<!-- Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
+		<link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#286c89" />
+		<link rel="shortcut icon" href="./icons/favicon.ico" />
+		<meta name="msapplication-TileColor" content="#286c89" />
+		<meta name="msapplication-config" content="./browserconfig.xml" />
+		<meta name="theme-color" content="#286c89" />
+
+		<!-- Font Awesome -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+			integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+
+		<!-- GTAG -->
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-53G6MNZZQV"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+
+			gtag("config", "G-53G6MNZZQV");
+		</script>
+	</head>
+	<body>
+		<nav>
+			<div class="branding disable-select">
+				<img src="./icons/brand.png" alt="Logo" width="52" height="52" />
+				<h1>Battleship</h1>
+			</div>
+			<div class="buttons disable-select">
+				<a target="_blank" href="https://github.com/yethranayeh/battleship"
+					><span><i class="fab fa-github"></i></span
+				></a>
+				<span id="restart"><i class="fas fa-undo-alt"></i>Restart</span>
+			</div>
+		</nav>
+		<div id="content" class="container">
+			<div class="row main">
+				<div class="col player-board disable-select">
+					<div class="row board-info">
+						<h2>Player</h2>
+						<form class="ship-orientation" autocomplete="off">
+							<input type="radio" name="ship-orientation" id="horizontal-orientation" value="horizontal" checked />
+							<label for="horizontal-orientation">Horizontal</label>
+							<input type="radio" name="ship-orientation" id="vertical-orientation" value="vertical" />
+							<label for="vertical-orientation">Vertical</label>
+						</form>
+					</div>
+					<div id="player-board" class="board"></div>
+				</div>
+				<div class="col info-container"></div>
+				<div class="col computer-board disable-select">
+					<div class="board-info">
+						<h2>Computer</h2>
+					</div>
+					<div id="computer-board" class="board unavailable"></div>
+				</div>
+			</div>
+		</div>
+		<script src="./main.js"></script>
+	</body>
+</html>
