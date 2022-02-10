@@ -1,6 +1,6 @@
 /** @format */
 
-const staticCacheName = "static-v1";
+const staticCacheName = "static-v1.1";
 const assets = [
 	"/",
 	"./index.html",
