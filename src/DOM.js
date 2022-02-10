@@ -105,8 +105,12 @@ const DOM = {
 		this.infoContainer.appendChild(directive);
 		this.infoContainer.appendChild(info);
 	},
-	displayGameInfo: function () {
+	displayGameInfo: function (currentTurn) {
 		this.infoContainer.innerHTML = "";
+
+		let paragraph = document.createElement("p");
+		paragraph.textContent = `It's ${currentTurn}'s turn`;
+		this.infoContainer.appendChild(paragraph);
 	},
 	makeBoardUnavailable: function (container) {
 		container.classList.add("unavailable");

@@ -36,6 +36,8 @@ player.board = Board();
 player.board.DOM = DOM.initBoard(player.board.board, document.querySelector("#player-board"));
 
 const computer = Player(null, true);
+computer.minResponseTime = 400;
+computer.maxResponseTime = 1000;
 App.players.push(computer.name);
 computer.board = Board();
 
@@ -134,7 +136,7 @@ PubSub.subscribe(Events.shipPlaced, (topic, square) => {
 
 PubSub.subscribe(Events.gameStarted, function () {
 	DOM.hideOrientationForm();
-	DOM.displayGameInfo();
+	DOM.displayGameInfo(App.currentTurn());
 	DOM.makeBoardAvailable(computer.board.DOM);
 	PubSub.subscribe(Events.playerAttacked, (topic, square) => {
 		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
@@ -155,13 +157,13 @@ PubSub.subscribe(Events.gameStarted, function () {
 
 	PubSub.subscribe(Events.computerAttacked, (topic, square) => {
 		const squareCoords = [square.getAttribute("data-row"), square.getAttribute("data-col")];
-		// If clicked square is a ship
+		// If computer's target square is a ship
 		if (typeof player.board.board[squareCoords[0]][squareCoords[1]] === "object") {
 			if (!square.classList.contains("hit")) {
 				square.classList.add("hit");
 			}
 		} else {
-			// If clicked square is not a ship but also not clicked before, add miss class
+			// If computer's target square is not a ship but also not targeted before, add miss class
 			if (!square.classList.contains("miss")) {
 				square.classList.add("miss");
 			}
@@ -189,9 +191,25 @@ PubSub.subscribe(Events.gameStarted, function () {
 			let randomSquare = document.querySelector(
 				`.square[data-row="${randomCoords[0]}"][data-col="${randomCoords[1]}"]`
 			);
-			PubSub.publish(Events.computerAttacked, randomSquare);
+			/**
+			 * Artificial pause for computer to make its "decision" before attacking.
+			 * @param {number} milliseconds
+			 * @returns {Promise}
+			 */
+			const sleep = (milliseconds) => {
+				return new Promise((resolve) => setTimeout(resolve, milliseconds));
+			};
+			function randomInteger(min, max) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+			const attack = async () => {
+				await sleep(randomInteger(computer.minResponseTime, computer.maxResponseTime));
+				PubSub.publish(Events.computerAttacked, randomSquare);
+			};
+			attack();
 		}
 		PubSub.publish(Events.nextTurn);
+		DOM.displayGameInfo(App.currentTurn());
 	});
 
 	PubSub.publish(Events.nextTurn);
