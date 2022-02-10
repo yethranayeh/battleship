@@ -109,7 +109,31 @@ const DOM = {
 		this.infoContainer.innerHTML = "";
 
 		let paragraph = document.createElement("p");
-		paragraph.textContent = `It's ${currentTurn}'s turn`;
+		paragraph.classList.add("turn-indicator");
+		let textBeginning = document.createElement("span");
+		textBeginning.textContent = "It is ";
+		let textEnding = document.createElement("span");
+		textEnding.textContent = "'s turn";
+
+		if (currentTurn === "Computer") {
+			let icon = document.createElement("i");
+			icon.classList.add("fas", "fa-robot");
+			paragraph.appendChild(icon);
+		} else {
+			let icon = document.createElement("i");
+			icon.classList.add("fas", "fa-user");
+			paragraph.appendChild(icon);
+		}
+
+		paragraph.appendChild(textBeginning);
+
+		let turn = document.createElement("span");
+		turn.classList.add("turn--current-player");
+		turn.textContent = currentTurn;
+		paragraph.appendChild(turn);
+
+		paragraph.appendChild(textEnding);
+
 		this.infoContainer.appendChild(paragraph);
 	},
 	makeBoardUnavailable: function (container) {

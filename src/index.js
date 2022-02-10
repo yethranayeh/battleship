@@ -125,7 +125,11 @@ PubSub.subscribe(Events.shipPlaced, (topic, square) => {
 	let shipCoords = player.board.newShipCoords(startPoint, shipLength, direction);
 
 	let ship = Ship(shipLength, shipCoords);
-	player.board.addShip(ship);
+	try {
+		player.board.addShip(ship);
+	} catch (err) {
+		console.warn("There was an error while trying to place the ship:\n", err);
+	}
 
 	DOM.removeHighlight(shipCoords, player.board.DOM);
 	DOM.addShip(shipCoords, player.board.DOM);

@@ -158,6 +158,15 @@ nav span i {
 	margin-right: var(--margin-sm);
 	color: var(--primary);
 }
+
+.turn-indicator i {
+	margin-right: var(--margin-sm);
+	color: var(--primary);
+}
+
+.turn-indicator .turn--current-player {
+	border-bottom: 2px solid var(--primary);
+}
 /* End: Info container */
 
 /* Start: Board */
