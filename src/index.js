@@ -12,20 +12,20 @@ const Ship = require("./ship");
 const Board = require("./gameboard");
 
 // Service worker
-// if ("serviceWorker" in navigator) {
-// 	window.addEventListener("load", () => {
-// 		navigator.serviceWorker
-// 			.register("./sw.js")
-// 			.then((registration) => {
-// 				// service worker registered
-// 			})
-// 			.catch((err) => {
-// 				// registration unsuccessful
-// 			});
-// 	});
-// } else {
-// 	console.log(`Service worker is not supported in this browser.`);
-// }
+if ("serviceWorker" in navigator) {
+	window.addEventListener("load", () => {
+		navigator.serviceWorker
+			.register("./sw.js")
+			.then((registration) => {
+				// service worker registered
+			})
+			.catch((err) => {
+				// registration unsuccessful
+			});
+	});
+} else {
+	console.log(`Service worker is not supported in this browser.`);
+}
 
 const Events = {
 	gameStarted: "gameStarted",
