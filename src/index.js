@@ -75,7 +75,11 @@ player.board.DOM.querySelectorAll(".square").forEach((square) => {
 
 computer.board.DOM.querySelectorAll(".square").forEach((square) => {
 	square.addEventListener("click", (e) => {
-		PubSub.publish(Events.playerAttacked, e.target);
+		// App.currentTurn() !== player.name does not really makes sense, since it should be the player's turn for them to play
+		// But, the way the logic is built works the opposite way, so I'm leaving it as is for now
+		if (App.currentTurn() !== player.name) {
+			PubSub.publish(Events.playerAttacked, e.target);
+		}
 	});
 });
 
